@@ -1,0 +1,42 @@
+class Solution {
+    bool isValid(int i, int n) { return i >= 0 && i < n; }
+
+public:
+    vector<int> delRow = {-1, 0, 1, 0};
+    vector<int> delCol = {0, 1, 0, -1};
+    void dfs(int i, int j, int n, int m, vector<vector<bool>>& vis,
+             vector<vector<char>>& arr) {
+        for (int ind = 0; ind < 4; ind++) {
+            int nrow = i + delRow[ind];
+            int ncol = j + delCol[ind];
+            if (isValid(nrow, n) && isValid(ncol, m) && !vis[nrow][ncol] &&
+                arr[nrow][ncol] == 'O') {
+                vis[nrow][ncol] = 1;
+                dfs(nrow, ncol, n, m, vis, arr);
+            }
+        }
+    }
+    void solve(vector<vector<char>>& arr) {
+        int n = arr.size();
+        int m = arr[0].size();
+        vector<vector<bool>> vis(n, vector<bool>(m, false));
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if ((i == 0 || i == n - 1 || j == 0 || j == m - 1) &&
+                    !vis[i][j] && arr[i][j] == 'O') {
+                    vis[i][j] = 1;
+                    dfs(i, j, n, m, vis, arr);
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (!vis[i][j] && arr[i][j] == 'O') {
+                    arr[i][j] = 'X';
+                }
+            }
+        }
+    }
+};
