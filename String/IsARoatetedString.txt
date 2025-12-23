@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool check(string a, string b){
+        int n = a.size();
+        for(int i=0; i<n; i++){
+            if(a[i] != b[i]) return false;
+        }
+        return true;
+    }
+    bool rotateString(string a, string b) {
+        
+        if(a.size() != b.size()) return false;
+        string temp = a;
+        int n = a.size();
+        for(int i=0; i<n; i++){
+            if(check(temp, b)) return true;
+            temp = temp.substr(1, n-1) + temp[0];
+        }
+        return false;
+    }
+};
