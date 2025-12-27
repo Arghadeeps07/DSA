@@ -1,0 +1,37 @@
+class Solution {
+public:
+    bool isNum(char ch) {
+        return (ch >= '0' && ch <= '9');
+    }
+
+    int myAtoi(string s) {
+        int i = 0, n = s.size();
+
+        // skip leading spaces
+        while (i < n && isspace(s[i])) i++;
+
+        if (i == n) return 0;
+
+        // check sign
+        int sign = 1;
+        if (s[i] == '+' || s[i] == '-') {
+            sign = (s[i] == '-') ? -1 : 1;
+            i++;
+        }
+
+        long long ans = 0;
+
+        while (i < n && isNum(s[i])) {
+            int num = s[i] - '0';
+            ans = ans * 10 + num;
+
+            // overflow handling
+            if (sign == 1 && ans > INT_MAX) return INT_MAX;
+            if (sign == -1 && -ans < INT_MIN) return INT_MIN;
+
+            i++;
+        }
+
+        return ans * sign;
+    }
+};
